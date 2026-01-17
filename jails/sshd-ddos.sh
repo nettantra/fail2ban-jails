@@ -15,21 +15,17 @@ failregex = sshd\[\d+\]: Did not receive identification string from <HOST>
 ignoreregex =
 EOF
 
-# Detect logging backend
-if [ -f /var/log/auth.log ]; then
-    BACKEND="logpath  = /var/log/auth.log"
-    ACTION="%(action_mwl)s"
-elif [ -f /var/log/secure ]; then
-    BACKEND="logpath  = /var/log/secure"
-    ACTION="%(action_mwl)s"
-elif command -v journalctl &> /dev/null && journalctl -u sshd.service -n 1 &> /dev/null; then
+# Detect logging backend (prefer systemd if available)
+if command -v journalctl &> /dev/null && journalctl -u sshd.service -n 1 &> /dev/null; then
     BACKEND="backend  = systemd
 journalmatch = _SYSTEMD_UNIT=sshd.service + _COMM=sshd"
-    ACTION="%(action_mw)s"
 elif command -v journalctl &> /dev/null && journalctl -u ssh.service -n 1 &> /dev/null; then
     BACKEND="backend  = systemd
 journalmatch = _SYSTEMD_UNIT=ssh.service + _COMM=sshd"
-    ACTION="%(action_mw)s"
+elif [ -f /var/log/auth.log ]; then
+    BACKEND="logpath  = /var/log/auth.log"
+elif [ -f /var/log/secure ]; then
+    BACKEND="logpath  = /var/log/secure"
 else
     echo "Error: Could not detect SSH log source"
     exit 1
@@ -45,7 +41,6 @@ $BACKEND
 maxretry = 3
 findtime = 60
 bantime  = -1
-action   = $ACTION
 EOF
 
 # Reload fail2ban

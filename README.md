@@ -17,6 +17,9 @@ wget -qO- https://raw.githubusercontent.com/nettantra/fail2ban-jails/main/jails/
 
 # ProFTPD TLS Crash
 wget -qO- https://raw.githubusercontent.com/nettantra/fail2ban-jails/main/jails/proftpd-tls-crash.sh | /bin/bash
+
+# SSHD DDoS
+wget -qO- https://raw.githubusercontent.com/nettantra/fail2ban-jails/main/jails/sshd-ddos.sh | /bin/bash
 ```
 
 ## Available Jails
@@ -25,3 +28,4 @@ wget -qO- https://raw.githubusercontent.com/nettantra/fail2ban-jails/main/jails/
 |------|-------------|
 | shellshock | Blocks Shellshock (CVE-2014-6271) exploit attempts |
 | proftpd-tls-crash | Blocks IPs causing ProFTPD TLS module crashes (signal 11) |
+| sshd-ddos | Blocks SSH DDoS attempts (connection floods, protocol abuse) |

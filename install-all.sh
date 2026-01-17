@@ -7,6 +7,7 @@ BASE_URL="https://raw.githubusercontent.com/nettantra/fail2ban-jails/main/jails"
 JAILS=(
     "shellshock"
     "proftpd-tls-crash"
+    "sshd-ddos"
 )
 
 for jail in "${JAILS[@]}"; do

@@ -31,7 +31,8 @@ else
     exit 1
 fi
 
-# Create jail
+# Create jail (remove old config first)
+rm -f "$JAIL_DIR/sshd-ddos.local"
 cat > "$JAIL_DIR/sshd-ddos.local" << EOF
 [sshd-ddos]
 enabled  = true

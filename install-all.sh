@@ -12,7 +12,7 @@ JAILS=(
 
 for jail in "${JAILS[@]}"; do
     echo "Installing $jail..."
-    wget --no-cache -qO- "$BASE_URL/$jail.sh" | /bin/bash
+    curl -fsSL "$BASE_URL/$jail.sh" | /bin/bash
     echo ""
 done
 

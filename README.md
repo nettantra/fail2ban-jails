@@ -8,18 +8,18 @@ Run as root:
 
 ```bash
 # Install all jails
-wget --no-cache -qO- https://raw.githubusercontent.com/nettantra/fail2ban-jails/main/install-all.sh | /bin/bash
+curl -fsSL https://raw.githubusercontent.com/nettantra/fail2ban-jails/main/install-all.sh | /bin/bash
 
 # Or install individually:
 
 # Shellshock
-wget --no-cache -qO- https://raw.githubusercontent.com/nettantra/fail2ban-jails/main/jails/shellshock.sh | /bin/bash
+curl -fsSL https://raw.githubusercontent.com/nettantra/fail2ban-jails/main/jails/shellshock.sh | /bin/bash
 
 # ProFTPD TLS Crash
-wget --no-cache -qO- https://raw.githubusercontent.com/nettantra/fail2ban-jails/main/jails/proftpd-tls-crash.sh | /bin/bash
+curl -fsSL https://raw.githubusercontent.com/nettantra/fail2ban-jails/main/jails/proftpd-tls-crash.sh | /bin/bash
 
 # SSHD DDoS
-wget --no-cache -qO- https://raw.githubusercontent.com/nettantra/fail2ban-jails/main/jails/sshd-ddos.sh | /bin/bash
+curl -fsSL https://raw.githubusercontent.com/nettantra/fail2ban-jails/main/jails/sshd-ddos.sh | /bin/bash
 ```
 
 ## Available Jails

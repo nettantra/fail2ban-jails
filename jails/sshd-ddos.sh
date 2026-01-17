@@ -15,17 +15,17 @@ failregex = sshd\[\d+\]: Did not receive identification string from <HOST>
 ignoreregex =
 EOF
 
-# Detect logging backend (prefer systemd if available)
-if command -v journalctl &> /dev/null && journalctl -u sshd.service -n 1 &> /dev/null; then
+# Detect logging backend (prefer log files if they have sshd entries)
+if [ -f /var/log/auth.log ] && grep -q sshd /var/log/auth.log 2>/dev/null; then
+    BACKEND="logpath  = /var/log/auth.log"
+elif [ -f /var/log/secure ] && grep -q sshd /var/log/secure 2>/dev/null; then
+    BACKEND="logpath  = /var/log/secure"
+elif command -v journalctl &> /dev/null && journalctl -u sshd.service -n 1 &> /dev/null; then
     BACKEND="backend  = systemd
 journalmatch = _SYSTEMD_UNIT=sshd.service + _COMM=sshd"
 elif command -v journalctl &> /dev/null && journalctl -u ssh.service -n 1 &> /dev/null; then
     BACKEND="backend  = systemd
 journalmatch = _SYSTEMD_UNIT=ssh.service + _COMM=sshd"
-elif [ -f /var/log/auth.log ]; then
-    BACKEND="logpath  = /var/log/auth.log"
-elif [ -f /var/log/secure ]; then
-    BACKEND="logpath  = /var/log/secure"
 else
     echo "Error: Could not detect SSH log source"
     exit 1

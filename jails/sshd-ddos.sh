@@ -16,10 +16,13 @@ ignoreregex =
 EOF
 
 # Detect logging backend (prefer log files if they have sshd entries)
-if [ -f /var/log/auth.log ] && grep -q sshd /var/log/auth.log 2>/dev/null; then
-    BACKEND="logpath  = /var/log/auth.log"
-elif [ -f /var/log/secure ] && grep -q sshd /var/log/secure 2>/dev/null; then
-    BACKEND="logpath  = /var/log/secure"
+LOGPATHS=""
+[ -f /var/log/auth.log ] && grep -q sshd /var/log/auth.log 2>/dev/null && LOGPATHS="/var/log/auth.log"
+[ -f /var/log/secure ] && grep -q sshd /var/log/secure 2>/dev/null && LOGPATHS="$LOGPATHS${LOGPATHS:+
+           }/var/log/secure"
+
+if [ -n "$LOGPATHS" ]; then
+    BACKEND="logpath  = $LOGPATHS"
 elif command -v journalctl &> /dev/null && journalctl -u sshd.service -n 1 &> /dev/null; then
     BACKEND="backend  = systemd
 journalmatch = _SYSTEMD_UNIT=sshd.service + _COMM=sshd"

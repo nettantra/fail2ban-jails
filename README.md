@@ -7,6 +7,11 @@ Collection of fail2ban jails for common attack patterns.
 Run as root:
 
 ```bash
+# Install all jails
+wget -qO- https://raw.githubusercontent.com/nettantra/fail2ban-jails/main/install-all.sh | /bin/bash
+
+# Or install individually:
+
 # Shellshock
 wget -qO- https://raw.githubusercontent.com/nettantra/fail2ban-jails/main/jails/shellshock.sh | /bin/bash
 
